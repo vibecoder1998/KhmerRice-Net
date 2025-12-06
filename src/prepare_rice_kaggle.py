@@ -21,7 +21,7 @@ else:
 print("Root dataset folder detected:", src_root)
 
 # Where dataset should be placed
-target_root = Path("data/rice")
+target_root = Path("src/data/rice")
 target_root.mkdir(parents=True, exist_ok=True)
 
 # Mapping REAL folder names to your internal class labels
