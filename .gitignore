@@ -1,0 +1,91 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Byte-compiled / cache
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+*.pickle
+*.log
+
+# MacOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Jupyter / notebooks
+.ipynb_checkpoints
+*.ipynb
+
+# PyTorch model files
+*.pth
+*.pt
+*.ckpt
+checkpoints/
+runs/
+
+# Dataset folders
+src/data/rice/
+
+# Other dataset sources
+data/raw/
+data/cache/
+data/tmp/
+data/*/
+
+# (keep metadata folder if needed)
+!data/metadata/
+
+# Kaggle / KaggleHub cache
+.kaggle/
+kaggle.json
+~/.kaggle/
+~/.cache/kagglehub/
+
+# Streamlit cache
+.streamlit/
+**/.streamlit/
+~/.streamlit/
+streamlit_logs/
+
+# VSCode settings
+.vscode/
+.history/
+
+# Logs
+*.log
+logs/
+output/
+outputs/
+results/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Temporary or working files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Environment & configs
+.env
+.env.local
+.env.*.local
+
+# OS default folders
+Thumbs.db
+ehthumbs.db
+Desktop.ini

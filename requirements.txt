@@ -1,0 +1,15 @@
+numpy
+pandas
+tqdm
+python-dotenv
+requests
+beautifulsoup4
+lxml
+pillow
+torch
+torchvision
+torchaudio
+scikit-learn
+streamlit
+joblib
+albumentations

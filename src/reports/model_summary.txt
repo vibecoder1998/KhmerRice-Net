@@ -1,0 +1,41 @@
+
+======================================================================
+DETAILED MODEL SUMMARY
+======================================================================
+
+Architecture: efficientnet_b0
+Input: 224×224×3 RGB images
+Output: 6 disease classes
+
+Parameter Breakdown:
+  • Backbone parameters:     5,300,000
+  • Classifier parameters:   658,000
+  • Total parameters:        6,000,000
+  • Trainable parameters:    6,000,000
+
+Layer Details:
+
+  Backbone (EfficientNet-B0):
+    • Mobile inverted bottleneck blocks (MBConv)
+    • Depthwise separable convolutions
+    • Squeeze-and-Excitation (SE) attention
+    • Compound scaling (depth, width, resolution)
+    • Output features: 1,280
+
+  Classifier Head:
+    • Linear(1280, 512)
+    • ReLU activation
+    • Dropout(0.4)
+    • Linear(512, 6)
+
+Memory Requirements:
+  • Model size (FP32):       ~22.9 MB
+  • Inference (CPU):        ~200-500 MB
+  • Inference (GPU):        ~500 MB - 1 GB
+
+Performance:
+  • Inference speed (CPU):  <100ms per image
+  • Inference speed (GPU):  <10ms per image
+  • Training time (GPU):    ~30-60 minutes (12 epochs)
+
+======================================================================

@@ -1,0 +1,109 @@
+
+======================================================================
+    RICE DISEASE CLASSIFICATION CNN ARCHITECTURE
+======================================================================
+
+INPUT LAYER
+    ┌─────────────────────────────────────┐
+    │  RGB Image: 224×224×3          │
+    │  Normalized (ImageNet stats)        │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+======================================================================
+BACKBONE NETWORK: EFFICIENTNET_B0
+======================================================================
+    ┌─────────────────────────────────────┐
+    │  Pre-trained on ImageNet (1.2M images)│
+    │  Parameters:           ~5.3M        │
+    │                                      │
+    │  Feature Extraction Layers:         │
+    │  • Convolutional blocks             │
+    │  • Batch normalization              │
+    │  • Activation functions (Swish/ReLU)│
+    │  • Pooling operations               │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────────────┐
+    │  Feature Vector: 1280 dimensions │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+======================================================================
+CLASSIFIER HEAD
+======================================================================
+    ┌─────────────────────────────────────┐
+    │  Linear Layer                       │
+    │  1280 → 512 features        │
+    │  Parameters: ~655,872        │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────────────┐
+    │  ReLU Activation                     │
+    │  f(x) = max(0, x)                    │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────────────┐
+    │  Dropout (p=0.4)                    │
+    │  Regularization during training      │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────────────┐
+    │  Linear Layer                       │
+    │  512 → 6 classes              │
+    │  Parameters: ~3,078           │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+======================================================================
+OUTPUT LAYER
+======================================================================
+    ┌─────────────────────────────────────┐
+    │  Logits: 6-dimensional vector │
+    │                                      │
+    │  Softmax → Probabilities            │
+    │  P(class_i) = exp(logit_i) / Σexp   │
+    └──────────────┬──────────────────────┘
+                   │
+                   ▼
+    ┌─────────────────────────────────────┐
+    │  DISEASE CLASSES:                    │
+    │  1. bacterial_leaf_blight                    │
+    │  2. brown_spot                               │
+    │  3. healthy                                  │
+    │  4. leaf_blast                               │
+    │  5. leaf_scald                               │
+    │  6. sheath_blight                            │
+    └─────────────────────────────────────┘
+
+======================================================================
+MODEL SUMMARY
+======================================================================
+Backbone Architecture:     efficientnet_b0
+Input Size:                224×224×3
+Output Classes:            6
+Backbone Parameters:       ~5.3M
+Classifier Parameters:     ~658K
+Total Parameters:          ~6M
+Model Size (approx):       ~25MB
+
+======================================================================
+TRAINING STRATEGY
+======================================================================
+Stage 1: Classifier Training (3 epochs)
+  • Freeze backbone parameters
+  • Train only classifier head
+  • Learning rate: 1e-3
+  • Optimizer: Adam
+
+Stage 2: Fine-tuning (9+ epochs)
+  • Unfreeze all parameters
+  • Fine-tune entire model
+  • Learning rate: 1e-4
+  • Optimizer: Adam
+
+======================================================================
