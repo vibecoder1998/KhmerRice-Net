@@ -26,9 +26,7 @@ def load_model_and_metadata(checkpoint_path=None):
     if checkpoint_path is None:
         # Try multiple possible locations
         possible_paths = [
-            Path("models/rice_cnn_model.pth"),
             Path("src/models/rice_cnn_model.pth"),
-            Path("rice_cnn_model.pth"),
         ]
         checkpoint_path = None
         for path in possible_paths:
