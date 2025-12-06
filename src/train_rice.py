@@ -5,8 +5,8 @@ from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
 from torchvision import transforms
 
-from src.rice_dataset import RiceDiseaseDataset
-from src.model_def import RiceCNN
+from rice_dataset import RiceDiseaseDataset
+from model_def import RiceCNN
 
 
 def build_loaders(data_dir, batch_size=32, img_size=224):
@@ -51,7 +51,7 @@ def build_loaders(data_dir, batch_size=32, img_size=224):
 
 def train():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data", default="data/rice")
+    parser.add_argument("--data", default="src/data/rice")
     parser.add_argument("--backbone", default="efficientnet_b0")
     parser.add_argument("--epochs", type=int, default=12)
     args = parser.parse_args()
