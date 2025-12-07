@@ -27,7 +27,6 @@ venv/
 *.ipynb
 
 # PyTorch model files
-*.pth
 *.pt
 *.ckpt
 checkpoints/
