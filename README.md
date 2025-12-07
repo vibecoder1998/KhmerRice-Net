@@ -50,35 +50,36 @@ The system uses transfer learning with pre-trained models (EfficientNet-B0 or Re
 ## 📁 Project Structure
 
 ```
-khmerrice-net/
-├── app.py                      # Main Streamlit application
-├── requirements.txt            # Python dependencies
-├── README.md                   # Project documentation
-├── REFACTORING_NOTES.md        # Refactoring documentation
-├── data/                       # Dataset directory
-│   └── rice/                  # Rice disease images (6 classes)
-│       ├── bacterial_leaf_blight/
-│       ├── brown_spot/
-│       ├── healthy/
-│       ├── leaf_blast/
-│       ├── leaf_scald/
-│       └── sheath_blight/
-├── models/                     # Trained model checkpoints
-│   └── rice_cnn_model.pth
-├── reports/                    # Documentation and reports
-│   ├── cnn_architecture.txt   # Architecture diagram
-│   └── model_summary.txt       # Model specifications
-├── src/                        # Source code modules
+KhmerRice-Net/
+├── app.py                          # Main Streamlit application
+├── requirements.txt                # Python dependencies
+├── README.md                       # Project documentation
+├── src/                            # Source code modules
 │   ├── __init__.py
-│   ├── model_def.py           # Neural network model definition
-│   ├── preprocess.py          # Image preprocessing utilities
-│   ├── inference.py            # Model loading and prediction logic
-│   ├── rice_dataset.py         # PyTorch Dataset class
-│   ├── train_rice.py           # Training script
-│   └── prepare_rice_kaggle.py  # Dataset preparation script
-└── utils/                      # Utility modules
-    ├── label_map.py           # Disease label mappings and information
-    └── mapping.py             # Original label mappings
+│   ├── model_def.py                # Neural network model definition
+│   ├── preprocess.py               # Image preprocessing utilities
+│   ├── inference.py                # Model loading and prediction logic
+│   ├── rice_dataset.py             # PyTorch Dataset class
+│   ├── train_rice.py               # Training script
+│   ├── prepare_rice_kaggle.py      # Dataset preparation script
+│   ├── data/                       # Dataset directory
+│   │   └── rice/                   # Rice disease images (6 classes)
+│   │       ├── bacterial_leaf_blight/
+│   │       ├── brown_spot/
+│   │       ├── healthy/
+│   │       ├── leaf_blast/
+│   │       ├── leaf_scald/
+│   │       └── sheath_blight/
+│   ├── models/                     # Trained model checkpoints
+│   │   └── rice_cnn_model.pth      # Pre-trained CNN model
+│   └── reports/                    # Documentation and reports
+│       ├── cnn_architecture.txt    # Architecture diagram
+│       └── model_summary.txt       # Model specifications
+└── utils/                          # Utility modules
+    ├── __init__.py
+    ├── label_map.py                # Disease label mappings and information
+    ├── mapping.py                  # Original label mappings
+    └── folder_map.py               # Folder structure mappings
 ```
 
 ## 🏗️ Architecture
@@ -161,9 +162,10 @@ Output: 6-dimensional probability vector
 
 ### Installation Steps
 
-1. **Clone the repository** (if applicable) or navigate to the project directory:
+1. **Clone the repository**:
    ```bash
-   cd khmerrice-net
+   git clone https://github.com/vibecoder1998/KhmerRice-Net.git
+   cd KhmerRice-Net
    ```
 
 2. **Create a virtual environment** (recommended):
@@ -178,7 +180,7 @@ Output: 6-dimensional probability vector
    ```
 
 4. **Verify model files exist**:
-   - Ensure `models/rice_cnn_model.pth` exists
+   - Ensure `src/models/rice_cnn_model.pth` exists
    - If not, train a model using the training script (see [Usage](#usage))
 
 5. **Download dataset** (if not already present):
@@ -345,8 +347,9 @@ Each disease classification includes:
 
 - **`label_map.py`**: Dictionary mapping disease labels to Khmer/English names, disease information, and management advice
 - **`mapping.py`**: Original label mappings (kept for backward compatibility)
+- **`folder_map.py`**: Mappings for disease folder structures
 
-### Model Files (`models/`)
+### Model Files (`src/models/`)
 
 - **`rice_cnn_model.pth`**: Serialized PyTorch model state dictionary with classes and backbone information
 
@@ -383,7 +386,7 @@ def predict(model, image, classes=None, top_k=3) -> tuple
 ### Common Issues
 
 1. **Model file not found**:
-   - Ensure `models/rice_cnn_model.pth` exists
+   - Ensure `src/models/rice_cnn_model.pth` exists
    - Check file paths are correct
    - Train a model if it doesn't exist
 
@@ -391,6 +394,7 @@ def predict(model, image, classes=None, top_k=3) -> tuple
    - Verify all dependencies are installed: `pip install -r requirements.txt`
    - Ensure virtual environment is activated
    - Check Python version (3.8+)
+   - Make sure you're running from the project root directory
 
 3. **Low prediction confidence**:
    - Image quality may be poor
@@ -410,7 +414,7 @@ def predict(model, image, classes=None, top_k=3) -> tuple
 6. **Dataset download issues**:
    - Ensure Kaggle credentials are set up (if using KaggleHub)
    - Check internet connection
-   - Verify dataset path in `prepare_rice_kaggle.py`
+   - Verify dataset path in `src/prepare_rice_kaggle.py`
 
 ## 🎓 Use Cases
 
@@ -461,5 +465,3 @@ For questions or issues, please open an issue in the repository.
 ---
 
 **Built with ❤️ using PyTorch & Streamlit**
-
-**Last Updated**: 2024
