@@ -3,7 +3,9 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 from torchvision import transforms
+import numpy as np
 
 from rice_dataset import RiceDiseaseDataset
 from model_def import RiceCNN
@@ -70,8 +72,8 @@ def train():
     optimizer = torch.optim.Adam(model.classifier.parameters(), lr=1e-3)
     print("\n===== Stage 1: Training classifier only =====")
     for epoch in range(1, 4):
-        train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss, val_acc = eval_one_epoch(model, val_loader, criterion, device)
+        _, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        _, val_acc = eval_one_epoch(model, val_loader, criterion, device)
         print(f"[Head] Epoch {epoch} Train Acc={train_acc:.3f} Val Acc={val_acc:.3f}")
 
     # Stage 2 — unfreeze backbone
@@ -81,8 +83,9 @@ def train():
 
     best_acc = 0
     for epoch in range(4, args.epochs + 1):
-        train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss, val_acc = eval_one_epoch(model, val_loader, criterion, device)
+        _, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        _, val_acc, y_pred, y_true = eval_one_epoch(model, val_loader, criterion, device)
+        compute_metrics(y_true, y_pred, classes)
         print(f"[Full] Epoch {epoch} Train Acc={train_acc:.3f} Val Acc={val_acc:.3f}")
 
         if val_acc > best_acc:
@@ -118,17 +121,40 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
 def eval_one_epoch(model, loader, criterion, device):
     model.eval()
     total, correct, loss_sum = 0, 0, 0
+    all_preds = []
+    all_labels = []
     for imgs, labels in loader:
         imgs, labels = imgs.to(device), labels.to(device)
         out = model(imgs)
         loss = criterion(out, labels)
 
         loss_sum += loss.item() * imgs.size(0)
-        correct += (out.argmax(1) == labels).sum().item()
+        preds = out.argmax(1)
+
+        correct += (preds == labels).sum().item()
         total += labels.size(0)
 
-    return loss_sum / total, correct / total
+        all_preds.extend(preds.cpu().numpy())
+        all_labels.extend(labels.cpu().numpy())
 
+    accuracy = correct / total
+
+    return loss_sum / total, accuracy, np.array(all_preds), np.array(all_labels)
+
+def compute_metrics(y_true, y_pred):
+    precision = precision_score(y_true, y_pred, average="weighted")
+    recall = recall_score(y_true, y_pred, average="weighted")
+    f1 = f1_score(y_true, y_pred, average="weighted")
+    cm = confusion_matrix(y_true, y_pred)
+
+    print("\n===== Validation Metrics =====")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall:    {recall:.4f}")
+    print(f"F1-score:  {f1:.4f}")
+    print("\nConfusion Matrix:")
+    print(cm)
+
+    return precision, recall, f1, cm
 
 if __name__ == "__main__":
     train()
