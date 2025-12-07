@@ -1,7 +1,6 @@
 """
 Neural network model definition for Rice Disease Classification
 """
-import torch
 import torch.nn as nn
 from torchvision import models
 

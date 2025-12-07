@@ -1,7 +1,6 @@
 """
 Image preprocessing utilities for Rice Disease Classification
 """
-import torch
 from torchvision import transforms
 from PIL import Image
 

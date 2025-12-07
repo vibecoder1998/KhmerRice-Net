@@ -24,7 +24,6 @@ def load_model_and_metadata(checkpoint_path=None):
             - transform_info: Dictionary with transform parameters
     """
     if checkpoint_path is None:
-        # Try multiple possible locations
         possible_paths = [
             Path("src/models/rice_cnn_model.pth"),
         ]
