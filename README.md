@@ -461,5 +461,3 @@ For questions or issues, please open an issue in the repository.
 ---
 
 **Built with ❤️ using PyTorch & Streamlit**
-
-**Last Updated**: 2024
