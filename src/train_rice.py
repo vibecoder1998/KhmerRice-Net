@@ -73,7 +73,7 @@ def train():
     print("\n===== Stage 1: Training classifier only =====")
     for epoch in range(1, 4):
         _, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
-        _, val_acc = eval_one_epoch(model, val_loader, criterion, device)
+        _, val_acc, _, _ = eval_one_epoch(model, val_loader, criterion, device)
         print(f"[Head] Epoch {epoch} Train Acc={train_acc:.3f} Val Acc={val_acc:.3f}")
 
     # Stage 2 — unfreeze backbone
