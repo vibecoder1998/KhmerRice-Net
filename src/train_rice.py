@@ -85,7 +85,7 @@ def train():
     for epoch in range(4, args.epochs + 1):
         _, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
         _, val_acc, y_pred, y_true = eval_one_epoch(model, val_loader, criterion, device)
-        compute_metrics(y_true, y_pred, classes)
+        compute_metrics(y_true, y_pred)
         print(f"[Full] Epoch {epoch} Train Acc={train_acc:.3f} Val Acc={val_acc:.3f}")
 
         if val_acc > best_acc:
