@@ -1,6 +1,12 @@
-import shutil
+import sys
 from pathlib import Path
+import shutil
 import kagglehub
+
+# Add parent directory to path to allow imports from utils
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from utils.folder_map import FOLDER_MAP
 
 print("Downloading rice dataset from KaggleHub...")
 base_path = Path(kagglehub.dataset_download("anshulm257/rice-disease-dataset"))
@@ -23,16 +29,6 @@ print("Root dataset folder detected:", src_root)
 # Where dataset should be placed
 target_root = Path("src/data/rice")
 target_root.mkdir(parents=True, exist_ok=True)
-
-# Mapping REAL folder names to your internal class labels
-FOLDER_MAP = {
-    "Bacterial Leaf Blight": "bacterial_leaf_blight",
-    "Brown Spot": "brown_spot",
-    "Healthy Rice Leaf": "healthy",
-    "Leaf Blast": "leaf_blast",
-    "Leaf scald": "leaf_scald",
-    "Sheath Blight": "sheath_blight",
-}
 
 print("\n Preparing dataset folders...\n")
 
